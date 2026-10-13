@@ -10,7 +10,8 @@
   ],
   "scripts": {
     "dev:auth": "npm run dev -w auth-service",
-    "dev:client": "tsx watch apps/client/src/index.ts"
+    "dev:client": "tsx watch apps/client/src/index.ts",
+    "db:migrate": "tsx scripts/db-migrate.ts"
   },
   "devDependencies": {
     "tsx": "^4.23.15",

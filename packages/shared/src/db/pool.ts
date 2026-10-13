@@ -5,10 +5,13 @@ let pool : Pool | null = null;
 export function getPool(): Pool {
   if (!pool) {
     const connectionString = process.env.DATABASE_URL;
-    if (connectionString) {
-      throw new Error('DATABASE_URL is not supported. Please use individual environment variables for database connection.');
+    if (!connectionString) {
+      throw new Error('DATABASE_URL is not set in the environment variables');
     }
-    pool = new Pool({connectionString});
+    pool = new Pool({
+      connectionString,
+      ssl: { rejectUnauthorized: false },
+      });
   }
   return pool;
 }
