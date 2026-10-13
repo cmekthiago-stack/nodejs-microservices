@@ -1,0 +1,19 @@
+{
+  "name": "nodejs-microservices",
+  "version": "1.0.0",
+  "private": true,
+  "description": "",
+  "main": "index.js",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev:auth": "npm run dev -w auth-service",
+    "dev:client": "tsx watch apps/client/src/index.ts"
+  },
+  "devDependencies": {
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2"
+  }
+}
