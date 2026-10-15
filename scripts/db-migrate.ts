@@ -1,11 +1,12 @@
-
-import {config} from 'dotenv';
+import { Pool, neonConfig } from '@neondatabase/serverless';
+import { config } from 'dotenv';
 import { readFileSync } from 'node:fs';
-import {resolve} from 'node:path';
+import { resolve } from 'node:path';
+import ws from 'ws';
 import { getPool, closePool } from '../packages/shared/src/db/pool.ts';
 
-
-config({path: resolve(process.cwd(), '.env')});
+neonConfig.webSocketConstructor = ws;
+config({ path: resolve(process.cwd(), '.env') });
 
 async function main(){
   const file = process.argv[2] ?? "sql/001_users.sql"; 

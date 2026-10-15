@@ -1,9 +1,9 @@
-import {RegisterInput} from '../schemas/auth.schemas';
-import { findByEmail, createUser } from '../repositories/user.repo';
-import { User } from '../types/auth.types';
+import {LoginInput, RegisterInput} from '../schemas/auth.schemas';
+import { findByEmail, createUser, findById } from '../repositories/user.repo';
 import { AppError } from "shared";
 import bcrypt from "bcryptjs"; 
 import { convertToPublicUser } from '../utils/auth.utils';
+import { signToken } from '../utils/jwt.utils';
 
 export async function register(input:RegisterInput){
   const existing = await findByEmail(input.email);
@@ -19,4 +19,31 @@ export async function register(input:RegisterInput){
   });
   
   return convertToPublicUser(user);
+}
+
+export async function login(input:LoginInput) {
+  const user = await findByEmail(input.email);
+  if (!user) {
+    throw new AppError("Invalid credentials", 401);
+  }
+
+  const isMatch = await bcrypt.compare(input.password, user.password_hash);
+  if (!isMatch) {
+    throw new AppError("Invalid credentials", 401);
+  }
+  const token = signToken({userId: user.id, role: user.role});
+
+  return {token,
+    user: convertToPublicUser(user)
+  };
+}
+
+
+export async function getMe(userId: string) {
+  const user = await findById(userId);
+  if (!user) {
+    throw new AppError("User not found", 404);
+  }
+  return convertToPublicUser(user);
+  
 }

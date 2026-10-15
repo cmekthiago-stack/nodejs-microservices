@@ -6,7 +6,7 @@ export function convertToPublicUser(user: User){
     name: user.name,
     email: user.email,
     role: user.role,
-    created_at: user.created_at,
-    updated_at: user.updated_at
+    createdAt: user.created_at,
+    updatedAt: user.updated_at
   };
 }

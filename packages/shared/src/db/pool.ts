@@ -1,6 +1,9 @@
-import { Pool } from 'pg';
+import { Pool, neonConfig } from '@neondatabase/serverless';
+import ws from 'ws';
 
-let pool : Pool | null = null;
+neonConfig.webSocketConstructor = ws;
+
+let pool: Pool | null = null;
 
 export function getPool(): Pool {
   if (!pool) {
@@ -8,10 +11,7 @@ export function getPool(): Pool {
     if (!connectionString) {
       throw new Error('DATABASE_URL is not set in the environment variables');
     }
-    pool = new Pool({
-      connectionString,
-      ssl: { rejectUnauthorized: false },
-      });
+    pool = new Pool({ connectionString });
   }
   return pool;
 }
@@ -21,4 +21,4 @@ export async function closePool(): Promise<void> {
     await pool.end();
     pool = null;
   }
-}  
+}
