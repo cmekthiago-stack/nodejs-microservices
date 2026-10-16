@@ -10,6 +10,7 @@
   ],
   "scripts": {
     "dev": "concurrently -n auth,client -c cyan,magenta \"npm:dev:auth\" \"npm:dev:client\"",
+    "dev:gateway" : "npm run dev -w api-gateway",
     "dev:auth": "npm run dev -w auth-service",   
     "db:migrate": "tsx scripts/db-migrate.ts"
   },
