@@ -10,8 +10,8 @@
   ],
   "scripts": {
     "dev": "concurrently -n auth,client -c cyan,magenta \"npm:dev:auth\" \"npm:dev:client\"",
-    "dev:gateway" : "npm run dev -w api-gateway",
-    "dev:auth": "npm run dev -w auth-service",   
+    "dev:gateway": "npm run dev -w api-gateway",
+    "dev:auth": "npm run dev -w auth-service",
     "db:migrate": "tsx scripts/db-migrate.ts"
   },
   "devDependencies": {
@@ -22,6 +22,7 @@
   "dependencies": {
     "@neondatabase/serverless": "^1.2.0",
     "dotenv": "^18.0.7",
+    "jsonwebtoken": "^9.0.3",
     "ws": "^8.22.0"
   },
   "allowScripts": {
