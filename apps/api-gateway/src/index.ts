@@ -6,6 +6,7 @@ import helmet from 'helmet';
 import rateLimit from 'express-rate-limit'
 import { AppError, httpLogger, successResponse, errorHandler } from 'shared';
 import { createProxyMiddleware } from 'http-proxy-middleware';
+import { gatewayAuth } from './middleware/gatewayAuth';
 import pino from 'pino'; 
 
 const logger = pino();
@@ -38,7 +39,7 @@ app.use("/health", (req, res) => {
 
 // create proxy starts
 // locahost:3000 /auth/login -> localhost:3001/auth/login
-app.use('/auth', createProxyMiddleware({
+app.use('/auth', gatewayAuth, createProxyMiddleware({
   target: AUTH_SERVICE_URL,
   changeOrigin: true,
   pathRewrite: (path)=>`/auth${path}`,

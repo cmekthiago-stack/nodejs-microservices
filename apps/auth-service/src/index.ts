@@ -1,7 +1,7 @@
 import express from 'express';
 import {resolve} from "node:path";
 import {config} from 'dotenv';
-import { AppError, httpLogger, errorHandler, successResponse, logger } from "shared";
+import { AppError, httpLogger, errorHandler, successResponse, logger, requireGatewaySecret } from "shared";
 import  authRoutes from './routes/auth.routes';
 
 config({path: resolve(process.cwd(), ".env")});
@@ -14,10 +14,10 @@ app.use(httpLogger);
 app.use(express.json());
 
 app.get("/health", (_req, res) => {
-  successResponse(res,{ service: "auth-service" });
+  successResponse(res, { service: "auth-service" });
 });
 
-app.use("/auth", authRoutes);
+app.use("/auth", requireGatewaySecret, authRoutes);
 
 app.use((_req, _res, next) => {
   next(new AppError("Route not found", 404));

@@ -34,7 +34,7 @@ export async function getMe(
    next: NextFunction
 ){
   try{
-    const userId =req.headers["x-userId"];
+    const userId =req.headers["x-user-id"];
     if(!userId){
        throw new AppError("missing x-userId header", 401)
       };

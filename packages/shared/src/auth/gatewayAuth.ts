@@ -6,8 +6,8 @@ import {AppError } from "../errors/AppError"
 //match ->next; mismatch -> forbidden(403)
 
 export function requireGatewaySecret(
-  _res: Response,
   req: Request,
+  _res: Response,
   next: NextFunction
 ) {
   const expected = process.env.GATEWAY_SECRET 
