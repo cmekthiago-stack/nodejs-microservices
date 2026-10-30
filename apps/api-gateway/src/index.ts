@@ -18,6 +18,8 @@ config({path: resolve(process.cwd(), '../../.env')});
 
 const PORT = process.env.PORT || 3000;
 const AUTH_SERVICE_URL = process.env.AUTH_SERVICE_URL || 'http://localhost:3001';
+const TASK_SERVICE_URL = process.env.TASK_SERVICE_URL|| 'http://localhost:3002';
+
 const app = express();
 
 //secure http Headers
@@ -44,6 +46,15 @@ app.use('/auth', gatewayAuth, createProxyMiddleware({
   changeOrigin: true,
   pathRewrite: (path)=>`/auth${path}`,
 })
+)
+app.use(
+  "/tasks",
+  gatewayAuth,
+  createProxyMiddleware({
+    target: TASK_SERVICE_URL,
+    changeOrigin: true,
+    pathRewrite: (currentPath) => `/tasks${currentPath}`
+  })
 )
 
 app.use((req, res, next) => {

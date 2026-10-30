@@ -1,8 +1,8 @@
 import {config} from 'dotenv';
 import {resolve} from 'node:path';
 import express from 'express';
-import { httpLogger, successResponse, AppError, errorHandler, logger } from 'shared';
-
+import { httpLogger, successResponse, AppError, errorHandler, logger, requireGatewaySecret } from 'shared';
+import taskRoutes from './routes/task.routes';
 
 config({path: resolve(process.cwd(), ".env")});
 config({path: resolve(process.cwd(), "../../.env")}); 
@@ -19,6 +19,9 @@ app.get("/health", (_req, res) => {
 });
 
 //mount routes here 
+
+app.use("/tasks", requireGatewaySecret, taskRoutes)
+
 app.use((_req, _res, next) => {
   next(new AppError("Route not found", 404));
 });
