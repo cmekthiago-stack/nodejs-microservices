@@ -9,7 +9,7 @@
     "packages/*"
   ],
   "scripts": {
-    "dev": "concurrently -n auth,client -c cyan,magenta \"npm:dev:auth\" \"npm:dev:client\"",
+    "dev": "concurrently -n auth,gateway -c cyan,magenta \"npm:dev:auth\" \"npm:dev:gateway\"",
     "dev:gateway": "npm run dev -w api-gateway",
     "dev:auth": "npm run dev -w auth-service",
     "dev:task": "npm run dev -w task-service",

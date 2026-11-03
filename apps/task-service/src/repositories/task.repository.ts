@@ -1,4 +1,5 @@
 import { Task } from "../utils/types";
+import { patchTaskInput } from "../schemas/task.schemas";
 import { getPool } from "shared";
 
 
@@ -62,4 +63,22 @@ export async function findSingleTaskById(id: string): Promise<Task | null>{
 export async function deleteSingleTaskById(id: string): Promise<boolean>{
   const result = await getPool().query(`DELETE FROM tasks WHERE id = $1 `, [id]);
   return (result.rowCount ?? 0) > 0;
+}
+
+export async function patchSingleTaskById(
+  id: string,
+  input: patchTaskInput
+): Promise<Task | null> {
+  const result = await getPool().query<Task>(
+    `
+    UPDATE tasks
+    SET title = COALESCE($2, title),
+        status = COALESCE($3, status),
+        updated_at = NOW()
+    WHERE id = $1
+    RETURNING id, title, status, created_by, created_at, updated_at
+    `,
+    [id, input.title ?? null, input.status ?? null]
+  );
+  return result.rows[0] ?? null;
 }

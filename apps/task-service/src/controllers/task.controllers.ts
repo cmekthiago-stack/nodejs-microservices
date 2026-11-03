@@ -26,3 +26,72 @@ export async function createTask(
     next(error)
   }
 }
+
+export async function listTasks (
+  req: Request,
+  res: Response,
+  next: NextFunction
+){
+  try{
+    const {userId, role} = requireIdentity(req)
+    const tasks = await taskService.listTasks(userId, role)
+
+    successResponse(res, {tasks});
+
+  }catch(error){
+    next(error)
+  }
+}
+
+export async function getSingleTask (
+  req: Request,
+  res: Response,
+  next: NextFunction
+){
+  try{
+    const {userId, role} = requireIdentity(req)
+    const id = String(req.params.id)
+
+    const task = await taskService.getSingleTask(id, userId, role)
+
+    successResponse(res, {task})
+
+  }catch(error){
+    next(error)
+  }
+}
+
+export async function deleteSingleTask(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  try {
+    const { userId, role } = requireIdentity(req);
+    const id = String(req.params.id);
+
+    const deletedResult = await taskService.deleteSingleTask(id, userId, role);
+
+    successResponse(res, deletedResult);
+  } catch (error) {
+    next(error);
+  }
+}
+
+export async function patchSingleTask(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  try {
+    const { userId, role } = requireIdentity(req);
+    const id = String(req.params.id);
+
+    // Pass the body so the service can actually apply changes
+    const task = await taskService.patchSingleTask(id, req.body, userId, role);
+
+    successResponse(res, { task });
+  } catch (error) {
+    next(error);
+  }
+}
