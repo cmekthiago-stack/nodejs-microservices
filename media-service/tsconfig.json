@@ -1,0 +1,8 @@
+{
+  "extends": "C:/Users/p c/Desktop/nodejs-microservices/tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "./dist",
+    "rootDir": "./src"
+  },
+  "include": ["src/**/*"]
+}
