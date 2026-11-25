@@ -1,13 +1,19 @@
-import {config} from 'dotenv';
+import { config } from 'dotenv';
 import express from 'express';
-import {resolve} from 'node:path';
+import { resolve } from 'node:path';
 import { httpLogger, successResponse, AppError, errorHandler, logger, requireGatewaySecret } from 'shared';
 import attachmentRoutes from './routes/media.routes';
 
 
-config({path: resolve(process.cwd(), '.env')})
-config({path: resolve(process.cwd(), '../../.env')})
 
+config({ path: resolve(process.cwd(), '../.env') });
+
+console.log("Working directory:", process.cwd());
+
+console.log(
+  "GATEWAY_SECRET loaded:",
+  Boolean(process.env.GATEWAY_SECRET)
+);
 const PORT = process.env.MEDIA_PORT || 3003;
 const app = express();
 

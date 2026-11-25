@@ -1,0 +1,12 @@
+$kind: http-request
+name: http://localhost:3000/auth/me
+description: ""
+url: http://localhost:3000/auth/me
+method: GET
+headers:
+  Authorization: "{{bearer_token_19vp}}"
+  x-user-id: "123456"
+body:
+  type: json
+  content: ""
+order: 1000
