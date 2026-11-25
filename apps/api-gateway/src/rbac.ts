@@ -38,6 +38,11 @@ const rbacRules: RbacRule[] = [
     roles: ["USER", "ADMIN"],
   },
   {
+    method: "GET",
+    path: "/tasks/:taskId/attachments",
+    roles: ["USER", "ADMIN"],
+  },
+  {
   method: "GET",
   path: "/tasks",
   roles: ["USER", "ADMIN"],

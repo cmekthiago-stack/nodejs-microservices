@@ -46,3 +46,14 @@ export async function uploadAttachment(input: {
   return convertToPublicMediaAttachment(attachment)
   
 }
+ 
+export async function listAttachments(input: {
+  taskId: string,
+  userId: string,
+  role: string
+}) {
+  await assertTaskAccess(input.taskId, input.userId, input.role);
+  const rows = await attachmentRepo.listByTaskId(input.taskId);
+
+  return rows.map(convertToPublicMediaAttachment);
+}
